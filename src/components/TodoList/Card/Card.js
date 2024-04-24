@@ -8,6 +8,12 @@ const Card = ({ title, id, column, handleDragStart, handleDelete, filter }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
+  useEffect(() => {
+    const cardsJSON = localStorage.getItem('cards');
+    const cards = JSON.parse(cardsJSON);
+    cards.find((card) => card.id === id) ? setIsChecked(cards.find((card) => card.id === id).isChecked) : setIsChecked(false);
+  }, [])
+
   const handleMouseEnter = () => {
     if (!isChecked) {  // Only change hover state if not checked
       setIsHovered(true);
@@ -21,19 +27,28 @@ const Card = ({ title, id, column, handleDragStart, handleDelete, filter }) => {
   };
 
   const handleCheck = (e) => {
+    const cardsJSON = localStorage.getItem('cards');
+    const cards = JSON.parse(cardsJSON);
+    const updatedCards = cards.map((card) => {
+      if (card.id === id) {
+        return { ...card, isChecked: !card.isChecked };
+      }
+      return card;
+    });
+    localStorage.setItem("cards", JSON.stringify(updatedCards));
     setIsChecked(!isChecked);
     setIsHovered(false); // Optionally reset hover when clicked
   };
 
-  const cardClasses = `cursor-grab rounded border border-neutral-700 ${isChecked ? 'bg-neutral-500 line-through' : 'bg-neutral-800'} p-3 active:cursor-grabbing h-auto w-full relative`;
+  const cardClasses = `cursor-grab rounded border border-neutral-700 ${isChecked ? 'bg-lighter line-through text-dark' : 'bg-light'} p-3 active:cursor-grabbing h-auto w-full relative transition-colors ease`;
 
   const classFilter = () => {
     if (filter === "all" && isChecked) {
       return
     } else if (filter === "progress" && isChecked) {
-      return 'hidden'
+      return 'hidden opacity-0'
     } else if (filter === "complete" && !isChecked) {
-      return 'hidden'
+      return 'hidden opacity-0'
     }
   }
 
@@ -53,9 +68,9 @@ const Card = ({ title, id, column, handleDragStart, handleDelete, filter }) => {
           onMouseLeave={handleMouseLeave}
           onClick={(e) => handleCheck(e)}
         >
-          {(isHovered || isChecked) && <FaCheck className="text-green transition-opacity ease w-3 h-3" />}
+          {(isHovered || isChecked) && <FaCheck className="text-indigo-600 transition-opacity ease w-3 h-3" />}
         </div>
-        <p className="text-sm text-neutral-100 whitespace-normal break-words p-3 pl-4">{title}</p>
+        <p className="text-sm text-darker whitespace-normal break-words p-3 pl-4">{title}</p>
 
         <RxCross1 className="absolute top-1 right-1 cursor-pointer transition-colors ease hover:text-red" onClick={() => handleDelete(id)} />
       </motion.div>

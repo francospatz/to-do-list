@@ -7,30 +7,46 @@ import Filter from "./Filter";
 
 
 const TodoList = () => {
-  const saved = localStorage.getItem("cards");
-  const initialValue = JSON.parse(saved);
 
-  const [cards, setCards] = useState(initialValue || DEFAULT_CARDS);
-  const [checked, setChecked] = useState([]);
+  const [cards, setCards] = useState(DEFAULT_CARDS);
+
+  // Function to load cards from localStorage
+  const loadCards = () => {
+    const cardsJSON = localStorage.getItem('cards');
+    if (cardsJSON) {
+      try {
+        const cardsArray = JSON.parse(cardsJSON);
+        setCards(cardsArray);
+      } catch (error) {
+        console.error('Error parsing cards from localStorage:', error);
+        // Handle error, maybe clear the localStorage if it's corrupted
+        localStorage.removeItem('cards');
+      }
+    } else {
+      localStorage.setItem('cards', JSON.stringify(DEFAULT_CARDS));
+    }
+  };
+
+  // On mount, load cards from localStorage
+  useEffect(loadCards, []);
 
   return (
-    <div className="h-screen w-full bg-neutral-900 text-neutral-50">
-      <div className="flex justify-center h-full gap-3 overflow-scroll p-12">
+    <div className="content h-screen w-full bg-purple">
+      <div className="flex justify-center gap-3 overflow-scroll p-12 ">
         <Column
           title="TODO"
           column="todo"
-          headingColor="text-violet-600"
+          headingColor="text-dark"
           cards={cards}
           setCards={setCards}
-          checked={checked}
-          setChecked={setChecked}
+
         />
       </div>
     </div>
   );
 };
 
-const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
+const Column = ({ title, cards, column, setCards }) => {
   const [active, setActive] = useState(false);
   const [selectedTab, setSelectedTab] = useState('All');
   const [filtered, setFiltered] = useState('All');
@@ -72,6 +88,7 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
       }
 
       setCards(copy);
+      localStorage.setItem("cards", JSON.stringify(copy))
     }
   };
 
@@ -137,13 +154,15 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
     const cardId = id;
     setCards((pv) => pv.filter((c) => c.id !== cardId));
     setActive(false);
+
+    const cardsJSON = localStorage.getItem('cards');
+    const oldCards = JSON.parse(cardsJSON);
+    const newCards = oldCards.filter((c) => c.id !== cardId);
+    localStorage.setItem('cards', JSON.stringify(newCards));
   };
-
-
 
   useEffect(() => {
     const filteredCards = cards.filter((c) => c.column === column);
-    localStorage.setItem("cards", JSON.stringify(cards));
 
     if (filtered === "All") {
       setCardsShown(filteredCards.map((c) => {
@@ -151,8 +170,7 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
           handleDragStart={handleDragStart}
           handleDelete={handleDelete}
           filter={"all"}
-          checked={checked}
-          setChecked={setChecked}
+          cards={cards}
 
         />;
       }))
@@ -162,8 +180,7 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
           handleDragStart={handleDragStart}
           handleDelete={handleDelete}
           filter={"progress"}
-          checked={checked}
-          setChecked={setChecked}
+          cards={cards}
 
         />;
       }))
@@ -173,22 +190,21 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
           handleDragStart={handleDragStart}
           handleDelete={handleDelete}
           filter={"complete"}
-          checked={checked}
-          setChecked={setChecked}
+          cards={cards}
         />;
       }))
     }
-    console.log(checked);
-  }, [filtered, cards, checked, column]);
+
+  }, [filtered, cards, column]);
 
 
   const tabs = ["All", "In progress", "Complete"];
 
   return (
-    <div className="w-60 md:w-1/3 shrink-0">
-      <div className="mb-3 flex items-center justify-between">
-        <h3 className="font-serif font-thin text-white">{title}</h3>
-        <span className="rounded text-sm text-neutral-400">
+    <div className="w-60 md:w-2/3 py-3 px-10 shrink-0 ">
+      <div className="mb-3 flex items-center justify-between rounded-3xl">
+        <h3 className="font-serif text-xl md:text-2xl text-dark font-bold">{title}</h3>
+        <span className="rounded text-sm text-dark">
           {cards.filter((c) => c.column === column).length}
         </span>
 
@@ -203,7 +219,7 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
       >
         {cardsShown}
         <DropIndicator beforeId={null} column={column} />
-        <AddCard column={column} setCards={setCards} />
+        <AddCard column={column} setCards={setCards} cards={cards} />
       </div>
     </div>
   );

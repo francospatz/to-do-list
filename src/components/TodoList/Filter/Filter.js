@@ -30,16 +30,16 @@ const Chip = ({ text, selectedTab, setSelectedTab, setFiltered }) => {
       }
       }
       className={`${selectedTab
-        ? "text-white"
-        : "text-neutral-400 hover:text-slate-200 hover:bg-violet-400/20"
-        } text-sm transition-colors px-2.5 py-0.5 rounded-md relative`}
+        ? "text-darker"
+        : "text-dark hover:text-darker hover:bg-violet-400/20"
+        } text-sm font-bold transition-colors px-2.5 py-0.5 rounded-md relative`}
     >
       <span className="relative z-10">{text}</span>
       {selectedTab && (
         <motion.span
           layoutId="pill-tab"
           transition={{ type: "spring", duration: 0.5 }}
-          className="absolute inset-0 z-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-md"
+          className="absolute inset-0 z-0 bg-gradient-to-r from-lighter to-light rounded-md"
         ></motion.span>
       )}
     </button>

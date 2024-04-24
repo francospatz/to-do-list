@@ -18,11 +18,11 @@ module.exports = {
             colors: {
                 'black': '#0d0d0d',
                 'white': '#FFFFFF',
-                'off-white': '#FCF9F0',
-                'light-brown': '#242423',
-                'blush': '#DBC9BF',
-                'green': '#38d875',
-                'blue': '#AEB4BD',
+                'purple': '#E3D1FF',
+                'dark': '#6D4B96',
+                'darker': '#380B5E',
+                'lighter': '#C9AAFF',
+                'light': '#A5A4FF',
                 'red': '#D22B2B'
             }
         },
