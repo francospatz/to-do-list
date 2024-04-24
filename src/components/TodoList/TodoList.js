@@ -1,83 +1,38 @@
 import React, { useState } from "react";
-import { FiPlus } from "react-icons/fi";
-import { motion } from "framer-motion";
-import { FaCheck } from "react-icons/fa";
-import { RxCross1 } from "react-icons/rx";
 
-// ------------------------------- FILTER -------------------------------
-const tabs = ["All", "In progress", "Complete"];
+import DropIndicator from "./DropIndicator";
+import Card from "./Card";
+import AddCard from "./AddCard";
+import Filter from "./Filter";
 
-const ChipTabs = () => {
-  const [selected, setSelected] = useState(tabs[0]);
-
-  return (
-    <div className="py-2 flex items-center flex-wrap gap-2">
-      {tabs.map((tab) => (
-        <Chip
-          text={tab}
-          selected={selected === tab}
-          setSelected={setSelected}
-          key={tab}
-        />
-      ))}
-    </div>
-  );
-};
-
-const Chip = ({
-  text,
-  selected,
-  setSelected,
-}) => {
-  return (
-    <button
-      onClick={() => setSelected(text)}
-      className={`${selected
-        ? "text-white"
-        : "text-neutral-400 hover:text-slate-200 hover:bg-violet-400/20"
-        } text-sm transition-colors px-2.5 py-0.5 rounded-md relative`}
-    >
-      <span className="relative z-10">{text}</span>
-      {selected && (
-        <motion.span
-          layoutId="pill-tab"
-          transition={{ type: "spring", duration: 0.5 }}
-          className="absolute inset-0 z-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-md"
-        ></motion.span>
-      )}
-    </button>
-  );
-};
-
-// ---------------------------------------------------------------------------
 
 const TodoList = () => {
+  const [cards, setCards] = useState(DEFAULT_CARDS);
+  const [checked, setChecked] = useState([]);
+
+
+
+
   return (
     <div className="h-screen w-full bg-neutral-900 text-neutral-50">
-      <Board />
+      <div className="flex justify-center h-full gap-3 overflow-scroll p-12">
+        <Column
+          title="TODO"
+          column="todo"
+          headingColor="text-violet-600"
+          cards={cards}
+          setCards={setCards}
+          checked={checked}
+          setChecked={setChecked}
+        />
+      </div>
     </div>
   );
 };
 
-const Board = () => {
-  const [cards, setCards] = useState([]);
-
-  return (
-    <div className="flex justify-center h-full gap-3 overflow-scroll p-12">
-      <Column
-        title="TODO"
-        column="todo"
-        headingColor="text-violet-600"
-        cards={cards}
-        setCards={setCards}
-      />
-    </div>
-  );
-};
-
-
-const Column = ({ title, headingColor, cards, column, setCards }) => {
+const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
   const [active, setActive] = useState(false);
+  const [selectedTab, setSelectedTab] = useState('All')
 
   const handleDragStart = (e, card) => {
     e.dataTransfer.setData("cardId", card.id);
@@ -178,13 +133,15 @@ const Column = ({ title, headingColor, cards, column, setCards }) => {
 
   const handleDelete = (id) => {
     const cardId = id;
-
     setCards((pv) => pv.filter((c) => c.id !== cardId));
-
     setActive(false);
   };
 
   const filteredCards = cards.filter((c) => c.column === column);
+  const completedCards = checked.filter((c) => c.column === column);
+  const progressCards = filteredCards.filter(c1 => !completedCards.some(c2 => c2.id === c1.id));
+
+  const tabs = ["All", "In progress", "Complete"];
 
   return (
     <div className="w-60 md:w-1/3 shrink-0">
@@ -195,7 +152,7 @@ const Column = ({ title, headingColor, cards, column, setCards }) => {
         </span>
 
       </div>
-      <ChipTabs />
+      <Filter selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} />
       <div
         onDrop={handleDragEnd}
         onDragOver={handleDragOver}
@@ -204,7 +161,12 @@ const Column = ({ title, headingColor, cards, column, setCards }) => {
           }`}
       >
         {filteredCards.map((c) => {
-          return <Card key={c.id} {...c} handleDragStart={handleDragStart} handleDelete={handleDelete} />;
+          return <Card key={c.id} {...c}
+            handleDragStart={handleDragStart}
+            handleDelete={handleDelete}
+            checked={checked}
+            setChecked={setChecked}
+          />;
         })}
         <DropIndicator beforeId={null} column={column} />
         <AddCard column={column} setCards={setCards} />
@@ -213,142 +175,33 @@ const Column = ({ title, headingColor, cards, column, setCards }) => {
   );
 };
 
-const Card = ({ title, id, column, handleDragStart, handleDelete }) => {
-  const [isChecked, setIsChecked] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const handleMouseEnter = () => {
-    if (!isChecked) {  // Only change hover state if not checked
-      setIsHovered(true);
-    }
-  };
+const DEFAULT_CARDS = [
+  {
+    title: "Restock the Oddities Collection",
+    id: "1",
+    column: "todo",
+  },
+  {
+    title: "Write a review about Dune 2 on Letterboxd",
+    id: "2",
+    column: "todo"
+  },
+  {
+    title: "Renew WoW Membership",
+    id: "3",
+    column: "todo"
+  },
+  {
+    title: "Start preparing my partner's birthday present",
+    id: "4",
+    column: "todo"
+  },
+  {
+    title: "Prepare the guest room",
+    id: "5",
+    column: "todo"
+  }
+]
 
-  const handleMouseLeave = () => {
-    if (!isChecked) {  // Only change hover state if not checked
-      setIsHovered(false);
-    }
-  };
-
-  const handleCheck = () => {
-    setIsChecked(!isChecked);
-    setIsHovered(false); // Optionally reset hover when clicked
-  };
-
-  const cardClasses = `cursor-grab rounded border border-neutral-700 ${isChecked ? 'bg-neutral-500 line-through' : 'bg-neutral-800'} p-3 active:cursor-grabbing h-auto w-full relative`;
-
-  return (
-    <>
-      <DropIndicator beforeId={id} column={column} />
-      <motion.div
-        layout
-        layoutId={id}
-        draggable="true"
-        onDragStart={(e) => handleDragStart(e, { title, id, column })}
-        className={cardClasses}
-      >
-        <div
-          className="w-4 h-4 absolute top-1 left-1 flex justify-center items-center bg-white rounded cursor-pointer"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onClick={handleCheck}
-        >
-          {(isHovered || isChecked) && <FaCheck className="text-green transition-opacity ease w-3 h-3" />}
-        </div>
-        <p className="text-sm text-neutral-100 whitespace-normal break-words p-2 pt-3">{title}</p>
-
-        <RxCross1 className="absolute top-1 right-1 cursor-pointer transition-colors ease hover:text-red" onClick={() => handleDelete(id)} />
-      </motion.div>
-    </>
-  );
-};
-
-const DropIndicator = ({ beforeId, column }) => {
-  return (
-    <div
-      data-before={beforeId || "-1"}
-      data-column={column}
-      className="my-0.5 h-0.5 w-full bg-violet-400 opacity-0"
-    />
-  );
-};
-
-const AddCard = ({ column, setCards }) => {
-  const [text, setText] = useState("");
-  const [adding, setAdding] = useState(false);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!text.trim().length) return;
-
-    const newCard = {
-      column,
-      title: text.trim(),
-      id: Math.random().toString(),
-    };
-
-    setCards((pv) => [...pv, newCard]);
-
-    setAdding(false);
-  };
-
-  return (
-    <>
-      {adding ? (
-        <motion.form layout onSubmit={
-          (e) => {
-            e.preventDefault();
-            handleSubmit(e);
-            setText('');
-          }
-        }>
-          <textarea
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Escape") {
-                e.preventDefault();
-                setAdding(false);
-              } else if (e.key === "Enter" && e.target.value === "") {
-                e.preventDefault();
-                setText('');
-                handleSubmit(e);
-              } else if (e.key === "Enter") {
-                e.preventDefault();
-                handleSubmit(e);
-                setText('');
-              }
-            }}
-            autoFocus
-            placeholder="Add new task..."
-            className="w-full rounded border border-violet-400 bg-violet-400/20 p-3 text-sm text-neutral-50 placeholder-violet-300 focus:outline-0"
-          />
-          <div className="mt-1.5 flex items-center justify-end gap-1.5">
-            <button
-              onClick={() => setAdding(false)}
-              className="px-3 py-1.5 text-xs text-neutral-400 transition-colors hover:text-neutral-50"
-            >
-              Close
-            </button>
-            <button
-              type="submit"
-              className="flex items-center gap-1.5 rounded bg-neutral-50 px-3 py-1.5 text-xs text-neutral-950 transition-colors hover:bg-neutral-300"
-            >
-              <span>Add</span>
-              <FiPlus />
-            </button>
-          </div>
-        </motion.form>
-      ) : (
-        <motion.button
-          layout
-          onClick={() => setAdding(true)}
-          className="flex w-full items-center gap-1.5 px-3 py-1.5 text-xs text-neutral-400 transition-colors hover:text-neutral-50"
-        >
-          <span>Add task</span>
-          <FiPlus />
-        </motion.button>
-      )}
-    </>
-  );
-};
 
 export default TodoList
