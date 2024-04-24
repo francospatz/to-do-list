@@ -1,8 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-
-
 const Filter = ({ selectedTab, setSelectedTab, tabs, setFiltered }) => {
 
   return (
@@ -30,9 +28,9 @@ const Chip = ({ text, selectedTab, setSelectedTab, setFiltered }) => {
       }
       }
       className={`${selectedTab
-        ? "text-darker"
-        : "text-dark hover:text-darker hover:bg-violet-400/20"
-        } text-sm font-bold transition-colors px-2.5 py-0.5 rounded-md relative`}
+        ? "text-darker pointer-events-none"
+        : "text-dark hover:text-darker hover:bg-purple hover:shadow-neon2"
+        } text-md font-bold transition-all px-2.5 py-0.5 rounded-md relative `}
     >
       <span className="relative z-10">{text}</span>
       {selectedTab && (

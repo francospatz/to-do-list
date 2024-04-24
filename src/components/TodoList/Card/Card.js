@@ -12,6 +12,7 @@ const Card = ({ title, id, column, handleDragStart, handleDelete, filter }) => {
     const cardsJSON = localStorage.getItem('cards');
     const cards = JSON.parse(cardsJSON);
     cards.find((card) => card.id === id) ? setIsChecked(cards.find((card) => card.id === id).isChecked) : setIsChecked(false);
+    // eslint-disable-next-line
   }, [])
 
   const handleMouseEnter = () => {
@@ -40,7 +41,7 @@ const Card = ({ title, id, column, handleDragStart, handleDelete, filter }) => {
     setIsHovered(false); // Optionally reset hover when clicked
   };
 
-  const cardClasses = `cursor-grab rounded border border-neutral-700 ${isChecked ? 'bg-lighter line-through text-dark' : 'bg-light'} p-3 active:cursor-grabbing h-auto w-full relative transition-colors ease`;
+  const cardClasses = `cursor-grab rounded border  ${isChecked ? 'bg-transparent line-through text-dark border-plighter' : 'bg-lighter border-dark'} p-3 active:cursor-grabbing h-auto w-full relative transition-colors ease`;
 
   const classFilter = () => {
     if (filter === "all" && isChecked) {
@@ -63,16 +64,16 @@ const Card = ({ title, id, column, handleDragStart, handleDelete, filter }) => {
         className={cardClasses}
       >
         <div
-          className="w-4 h-4 absolute top-1 left-1 flex justify-center items-center bg-white rounded cursor-pointer"
+          className="w-4 h-4 absolute top-1 left-1 flex justify-center items-center bg-purple rounded cursor-pointer"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           onClick={(e) => handleCheck(e)}
         >
-          {(isHovered || isChecked) && <FaCheck className="text-indigo-600 transition-opacity ease w-3 h-3" />}
+          {(isHovered || isChecked) && <FaCheck className="text-dark w-3 h-3" />}
         </div>
-        <p className="text-sm text-darker whitespace-normal break-words p-3 pl-4">{title}</p>
+        <p className="text-sm md:text-md text-darker whitespace-normal break-words p-3 pl-4">{title}</p>
 
-        <RxCross1 className="absolute top-1 right-1 cursor-pointer transition-colors ease hover:text-red" onClick={() => handleDelete(id)} />
+        <RxCross1 className="absolute top-1 right-1 cursor-pointer text-dark transition-colors ease hover:text-darker" onClick={() => handleDelete(id)} />
       </motion.div>
     </div>
   );

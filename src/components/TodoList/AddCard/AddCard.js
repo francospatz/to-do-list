@@ -53,18 +53,18 @@ const AddCard = ({ column, setCards, cards }) => {
             }}
             autoFocus
             placeholder="Add new task..."
-            className="w-full rounded border border-violet-400 bg-violet-400/20 p-3 text-sm text-darker placeholder-dark focus:outline-0"
+            className="w-full rounded border border-purple bg-purple p-3 text-sm text-darker placeholder-dark focus:outline-0"
           />
           <div className="mt-1.5 flex items-center justify-end gap-1.5">
             <button
               onClick={() => setAdding(false)}
-              className="px-3 py-1.5 text-xs text-dark transition-colors hover:text-darker"
+              className="px-3 py-1.5 text-sm text-darker transition-colors hover:text-dark"
             >
               Close
             </button>
             <button
               type="submit"
-              className="flex items-center gap-1.5 rounded bg-light px-3 py-1.5 text-xs text-darker transition-colors hover:bg-lighter"
+              className="flex items-center gap-1.5 rounded transition-shadow hover:shadow-neon bg-purple px-3 py-1.5 text-sm text-darker transition-colors hover:bg-purple"
             >
               <span>Add</span>
               <FiPlus />
@@ -75,7 +75,7 @@ const AddCard = ({ column, setCards, cards }) => {
         <motion.button
           layout
           onClick={() => setAdding(true)}
-          className="flex w-full items-center gap-1.5 px-3 py-1.5 text-xs text-dark transition-colors hover:text-light"
+          className="flex w-full items-center gap-1.5 px-3 py-1.5 text-sm text-dark transition-colors hover:text-darker"
         >
           <span>Add task</span>
           <FiPlus />

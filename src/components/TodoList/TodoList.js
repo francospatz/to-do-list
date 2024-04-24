@@ -31,10 +31,10 @@ const TodoList = () => {
   useEffect(loadCards, []);
 
   return (
-    <div className="content h-screen w-full bg-purple">
-      <div className="flex justify-center gap-3 overflow-scroll p-12 ">
+    <div className="content min-h-screen w-full bg-gradient-to-b from-purple from-10% via-lighter via-50% to-light to-90%">
+      <div className="flex h-auto justify-center gap-3 overflow-scroll p-4 md:p-12 ">
         <Column
-          title="TODO"
+          title="To-Do List"
           column="todo"
           headingColor="text-dark"
           cards={cards}
@@ -194,17 +194,17 @@ const Column = ({ title, cards, column, setCards }) => {
         />;
       }))
     }
-
+    // eslint-disable-next-line
   }, [filtered, cards, column]);
 
 
   const tabs = ["All", "In progress", "Complete"];
 
   return (
-    <div className="w-60 md:w-2/3 py-3 px-10 shrink-0 ">
-      <div className="mb-3 flex items-center justify-between rounded-3xl">
-        <h3 className="font-serif text-xl md:text-2xl text-dark font-bold">{title}</h3>
-        <span className="rounded text-sm text-dark">
+    <div className="w-full md:w-2/3 mt-1 md:mt-2 py-1 md:py-3 px-4 md:px-10 shrink-0">
+      <div className="flex items-center justify-between rounded-3xl">
+        <h3 className="font-serif text-3xl md:text-4xl text-dark">{title}</h3>
+        <span className="rounded text-lg font-bold font-serif text-dark">
           {cards.filter((c) => c.column === column).length}
         </span>
 
@@ -214,7 +214,7 @@ const Column = ({ title, cards, column, setCards }) => {
         onDrop={handleDragEnd}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
-        className={`h-full w-full transition-colors ${active ? "bg-neutral-800/50" : "bg-neutral-800/0"
+        className={`h-full w-full transition-colors rounded ${active ? "bg-lighter/40" : "bg-neutral-800/0"
           }`}
       >
         {cardsShown}
