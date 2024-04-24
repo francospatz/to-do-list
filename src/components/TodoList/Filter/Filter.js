@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 
 
-const Filter = ({ selectedTab, setSelectedTab, tabs }) => {
+const Filter = ({ selectedTab, setSelectedTab, tabs, setFiltered }) => {
 
   return (
     <div className="py-2 flex items-center flex-wrap gap-2">
@@ -13,18 +13,20 @@ const Filter = ({ selectedTab, setSelectedTab, tabs }) => {
           selectedTab={selectedTab === tab}
           setSelectedTab={setSelectedTab}
           key={tab}
+          setFiltered={setFiltered}
         />
       ))}
     </div>
   );
 };
 
-const Chip = ({ text, selectedTab, setSelectedTab }) => {
+const Chip = ({ text, selectedTab, setSelectedTab, setFiltered }) => {
 
   return (
     <button
       onClick={() => {
         setSelectedTab(text)
+        setFiltered(text)
       }
       }
       className={`${selectedTab

@@ -5,7 +5,6 @@ import { FiPlus } from "react-icons/fi";
 const AddCard = ({ column, setCards }) => {
   const [text, setText] = useState("");
   const [adding, setAdding] = useState(false);
-  const [checked, setChecked] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,8 +15,9 @@ const AddCard = ({ column, setCards }) => {
       column,
       title: text.trim(),
       id: Math.random().toString(),
-      checked: checked,
-      setChecked: setChecked
+      check: false,
+      /* checked: checked,
+      setChecked: setChecked */
     };
 
     setCards((pv) => [...pv, newCard]);

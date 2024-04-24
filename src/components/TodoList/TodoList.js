@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import DropIndicator from "./DropIndicator";
 import Card from "./Card";
@@ -32,7 +32,12 @@ const TodoList = () => {
 
 const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
   const [active, setActive] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('All')
+  const [selectedTab, setSelectedTab] = useState('All');
+  const [filtered, setFiltered] = useState('All');
+  const [data, setData] = useState([]);
+  const [cardsShown, setCardsShown] = useState([])
+
+
 
   const handleDragStart = (e, card) => {
     e.dataTransfer.setData("cardId", card.id);
@@ -139,7 +144,49 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
 
   const filteredCards = cards.filter((c) => c.column === column);
   const completedCards = checked.filter((c) => c.column === column);
-  const progressCards = filteredCards.filter(c1 => !completedCards.some(c2 => c2.id === c1.id));
+
+  const difference = (A, B) => {
+    const idsInB = new Set(B.map(item => item.id));
+    return A.filter(item => !idsInB.has(item.id));
+  }
+
+  const progressCards = difference(filteredCards, completedCards);
+
+  useEffect(() => {
+    if (filtered === "All") {
+      setCardsShown(filteredCards.map((c) => {
+        return <Card key={c.id} {...c}
+          handleDragStart={handleDragStart}
+          handleDelete={handleDelete}
+          checked={checked}
+          setChecked={setChecked}
+          isChecked
+        />;
+      }))
+    } else if (filtered === "In progress") {
+      setCardsShown(progressCards.map((c) => {
+        return <Card key={c.id} {...c}
+          handleDragStart={handleDragStart}
+          handleDelete={handleDelete}
+          checked={checked}
+          setChecked={setChecked}
+          isChecked={false}
+        />;
+      }))
+    } else if (filtered === "Complete") {
+      setCardsShown(completedCards.map((c) => {
+        return <Card key={c.id} {...c}
+          handleDragStart={handleDragStart}
+          handleDelete={handleDelete}
+          checked={checked}
+          setChecked={setChecked}
+          isChecked={true}
+        />;
+      }))
+    }
+
+  }, [filtered, cards]);
+
 
   const tabs = ["All", "In progress", "Complete"];
 
@@ -152,7 +199,7 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
         </span>
 
       </div>
-      <Filter selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} />
+      <Filter selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} setFiltered={setFiltered} />
       <div
         onDrop={handleDragEnd}
         onDragOver={handleDragOver}
@@ -160,14 +207,7 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
         className={`h-full w-full transition-colors ${active ? "bg-neutral-800/50" : "bg-neutral-800/0"
           }`}
       >
-        {filteredCards.map((c) => {
-          return <Card key={c.id} {...c}
-            handleDragStart={handleDragStart}
-            handleDelete={handleDelete}
-            checked={checked}
-            setChecked={setChecked}
-          />;
-        })}
+        {cardsShown}
         <DropIndicator beforeId={null} column={column} />
         <AddCard column={column} setCards={setCards} />
       </div>
@@ -178,28 +218,33 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
 const DEFAULT_CARDS = [
   {
     title: "Restock the Oddities Collection",
-    id: "1",
+    id: "1898437",
     column: "todo",
+    /* isChecked: false */
   },
   {
     title: "Write a review about Dune 2 on Letterboxd",
-    id: "2",
-    column: "todo"
+    id: "234244",
+    column: "todo",
+    /* isChecked: false */
   },
   {
     title: "Renew WoW Membership",
-    id: "3",
-    column: "todo"
+    id: "33956",
+    column: "todo",
+    /* isChecked: false */
   },
   {
     title: "Start preparing my partner's birthday present",
-    id: "4",
-    column: "todo"
+    id: "4546",
+    column: "todo",
+    /* isChecked: false */
   },
   {
     title: "Prepare the guest room",
-    id: "5",
-    column: "todo"
+    id: "531",
+    column: "todo",
+    /* isChecked: false */
   }
 ]
 
