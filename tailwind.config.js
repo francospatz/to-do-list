@@ -23,7 +23,7 @@ module.exports = {
                 'blush': '#DBC9BF',
                 'green': '#93A38D',
                 'blue': '#AEB4BD',
-                'brown': '#C89868'
+                'red': '#D22B2B'
             }
         },
     },

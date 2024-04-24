@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FiPlus, FiTrash } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { FaFire } from "react-icons/fa";
+import { RxCross1 } from "react-icons/rx";
 
 const TodoList = () => {
   return (
@@ -23,7 +24,7 @@ const Board = () => {
         cards={cards}
         setCards={setCards}
       />
-      <BurnBarrel setCards={setCards} />
+      {/* <BurnBarrel setCards={setCards} /> */}
     </div>
   );
 };
@@ -128,10 +129,18 @@ const Column = ({ title, headingColor, cards, column, setCards }) => {
     setActive(false);
   };
 
+  const handleDelete = (id) => {
+    const cardId = id;
+
+    setCards((pv) => pv.filter((c) => c.id !== cardId));
+
+    setActive(false);
+  };
+
   const filteredCards = cards.filter((c) => c.column === column);
 
   return (
-    <div className="w-56 shrink-0">
+    <div className="w-60 md:w-1/3 shrink-0">
       <div className="mb-3 flex items-center justify-between">
         <h3 className={`font-serif ${headingColor}`}>{title}</h3>
         <span className="rounded text-sm text-neutral-400">
@@ -146,7 +155,7 @@ const Column = ({ title, headingColor, cards, column, setCards }) => {
           }`}
       >
         {filteredCards.map((c) => {
-          return <Card key={c.id} {...c} handleDragStart={handleDragStart} />;
+          return <Card key={c.id} {...c} handleDragStart={handleDragStart} handleDelete={handleDelete} />;
         })}
         <DropIndicator beforeId={null} column={column} />
         <AddCard column={column} setCards={setCards} />
@@ -155,7 +164,8 @@ const Column = ({ title, headingColor, cards, column, setCards }) => {
   );
 };
 
-const Card = ({ title, id, column, handleDragStart }) => {
+const Card = ({ title, id, column, handleDragStart, handleDelete }) => {
+
   return (
     <>
       <DropIndicator beforeId={id} column={column} />
@@ -164,9 +174,10 @@ const Card = ({ title, id, column, handleDragStart }) => {
         layoutId={id}
         draggable="true"
         onDragStart={(e) => handleDragStart(e, { title, id, column })}
-        className="cursor-grab rounded border border-neutral-700 bg-neutral-800 p-3 active:cursor-grabbing"
+        className="cursor-grab rounded border border-neutral-700 bg-neutral-800 p-3 active:cursor-grabbing h-auto w-full relative"
       >
-        <p className="text-sm text-neutral-100">{title}</p>
+        <p className="text-sm text-neutral-100 whitespace-normal break-words p-2">{title}</p>
+        <RxCross1 className="absolute top-1 right-1 cursor-pointer transition-colors ease hover:text-red" onClick={() => handleDelete(id)} />
       </motion.div>
     </>
   );
@@ -182,7 +193,7 @@ const DropIndicator = ({ beforeId, column }) => {
   );
 };
 
-const BurnBarrel = ({ setCards }) => {
+/* const BurnBarrel = ({ setCards }) => {
   const [active, setActive] = useState(false);
 
   const handleDragOver = (e) => {
@@ -215,7 +226,7 @@ const BurnBarrel = ({ setCards }) => {
       {active ? <FaFire className="animate-bounce" /> : <FiTrash />}
     </div>
   );
-};
+}; */
 
 const AddCard = ({ column, setCards }) => {
   const [text, setText] = useState("");
@@ -243,6 +254,13 @@ const AddCard = ({ column, setCards }) => {
         <motion.form layout onSubmit={handleSubmit}>
           <textarea
             onChange={(e) => setText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") {
+                setAdding(false);
+              } else if (e.key === "Enter") {
+                handleSubmit(e);
+              }
+            }}
             autoFocus
             placeholder="Add new task..."
             className="w-full rounded border border-violet-400 bg-violet-400/20 p-3 text-sm text-neutral-50 placeholder-violet-300 focus:outline-0"
