@@ -21,7 +21,7 @@ module.exports = {
                 'off-white': '#FCF9F0',
                 'light-brown': '#242423',
                 'blush': '#DBC9BF',
-                'green': '#93A38D',
+                'green': '#38d875',
                 'blue': '#AEB4BD',
                 'red': '#D22B2B'
             }

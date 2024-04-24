@@ -1,8 +1,55 @@
 import React, { useState } from "react";
-import { FiPlus, FiTrash } from "react-icons/fi";
+import { FiPlus } from "react-icons/fi";
 import { motion } from "framer-motion";
-import { FaFire } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
+
+// ------------------------------- FILTER -------------------------------
+const tabs = ["All", "In progress", "Complete"];
+
+const ChipTabs = () => {
+  const [selected, setSelected] = useState(tabs[0]);
+
+  return (
+    <div className="py-2 flex items-center flex-wrap gap-2">
+      {tabs.map((tab) => (
+        <Chip
+          text={tab}
+          selected={selected === tab}
+          setSelected={setSelected}
+          key={tab}
+        />
+      ))}
+    </div>
+  );
+};
+
+const Chip = ({
+  text,
+  selected,
+  setSelected,
+}) => {
+  return (
+    <button
+      onClick={() => setSelected(text)}
+      className={`${selected
+        ? "text-white"
+        : "text-neutral-400 hover:text-slate-200 hover:bg-violet-400/20"
+        } text-sm transition-colors px-2.5 py-0.5 rounded-md relative`}
+    >
+      <span className="relative z-10">{text}</span>
+      {selected && (
+        <motion.span
+          layoutId="pill-tab"
+          transition={{ type: "spring", duration: 0.5 }}
+          className="absolute inset-0 z-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-md"
+        ></motion.span>
+      )}
+    </button>
+  );
+};
+
+// ---------------------------------------------------------------------------
 
 const TodoList = () => {
   return (
@@ -20,14 +67,14 @@ const Board = () => {
       <Column
         title="TODO"
         column="todo"
-        headingColor="text-yellow-200"
+        headingColor="text-violet-600"
         cards={cards}
         setCards={setCards}
       />
-      {/* <BurnBarrel setCards={setCards} /> */}
     </div>
   );
 };
+
 
 const Column = ({ title, headingColor, cards, column, setCards }) => {
   const [active, setActive] = useState(false);
@@ -142,11 +189,13 @@ const Column = ({ title, headingColor, cards, column, setCards }) => {
   return (
     <div className="w-60 md:w-1/3 shrink-0">
       <div className="mb-3 flex items-center justify-between">
-        <h3 className={`font-serif ${headingColor}`}>{title}</h3>
+        <h3 className="font-serif font-thin text-white">{title}</h3>
         <span className="rounded text-sm text-neutral-400">
           {filteredCards.length}
         </span>
+
       </div>
+      <ChipTabs />
       <div
         onDrop={handleDragEnd}
         onDragOver={handleDragOver}
@@ -165,6 +214,26 @@ const Column = ({ title, headingColor, cards, column, setCards }) => {
 };
 
 const Card = ({ title, id, column, handleDragStart, handleDelete }) => {
+  const [isChecked, setIsChecked] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const handleMouseEnter = () => {
+    if (!isChecked) {  // Only change hover state if not checked
+      setIsHovered(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (!isChecked) {  // Only change hover state if not checked
+      setIsHovered(false);
+    }
+  };
+
+  const handleCheck = () => {
+    setIsChecked(!isChecked);
+    setIsHovered(false); // Optionally reset hover when clicked
+  };
+
+  const cardClasses = `cursor-grab rounded border border-neutral-700 ${isChecked ? 'bg-neutral-500 line-through' : 'bg-neutral-800'} p-3 active:cursor-grabbing h-auto w-full relative`;
 
   return (
     <>
@@ -174,9 +243,18 @@ const Card = ({ title, id, column, handleDragStart, handleDelete }) => {
         layoutId={id}
         draggable="true"
         onDragStart={(e) => handleDragStart(e, { title, id, column })}
-        className="cursor-grab rounded border border-neutral-700 bg-neutral-800 p-3 active:cursor-grabbing h-auto w-full relative"
+        className={cardClasses}
       >
-        <p className="text-sm text-neutral-100 whitespace-normal break-words p-2">{title}</p>
+        <div
+          className="w-4 h-4 absolute top-1 left-1 flex justify-center items-center bg-white rounded cursor-pointer"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleCheck}
+        >
+          {(isHovered || isChecked) && <FaCheck className="text-green transition-opacity ease w-3 h-3" />}
+        </div>
+        <p className="text-sm text-neutral-100 whitespace-normal break-words p-2 pt-3">{title}</p>
+
         <RxCross1 className="absolute top-1 right-1 cursor-pointer transition-colors ease hover:text-red" onClick={() => handleDelete(id)} />
       </motion.div>
     </>
@@ -192,41 +270,6 @@ const DropIndicator = ({ beforeId, column }) => {
     />
   );
 };
-
-/* const BurnBarrel = ({ setCards }) => {
-  const [active, setActive] = useState(false);
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    setActive(true);
-  };
-
-  const handleDragLeave = () => {
-    setActive(false);
-  };
-
-  const handleDragEnd = (e) => {
-    const cardId = e.dataTransfer.getData("cardId");
-
-    setCards((pv) => pv.filter((c) => c.id !== cardId));
-
-    setActive(false);
-  };
-
-  return (
-    <div
-      onDrop={handleDragEnd}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      className={`mt-10 grid h-56 w-56 shrink-0 place-content-center rounded border text-3xl ${active
-        ? "border-red-800 bg-red-800/20 text-red-500"
-        : "border-neutral-500 bg-neutral-500/20 text-neutral-500"
-        }`}
-    >
-      {active ? <FaFire className="animate-bounce" /> : <FiTrash />}
-    </div>
-  );
-}; */
 
 const AddCard = ({ column, setCards }) => {
   const [text, setText] = useState("");
@@ -251,14 +294,27 @@ const AddCard = ({ column, setCards }) => {
   return (
     <>
       {adding ? (
-        <motion.form layout onSubmit={handleSubmit}>
+        <motion.form layout onSubmit={
+          (e) => {
+            e.preventDefault();
+            handleSubmit(e);
+            setText('');
+          }
+        }>
           <textarea
             onChange={(e) => setText(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Escape") {
+                e.preventDefault();
                 setAdding(false);
-              } else if (e.key === "Enter") {
+              } else if (e.key === "Enter" && e.target.value === "") {
+                e.preventDefault();
+                setText('');
                 handleSubmit(e);
+              } else if (e.key === "Enter") {
+                e.preventDefault();
+                handleSubmit(e);
+                setText('');
               }
             }}
             autoFocus
