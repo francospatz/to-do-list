@@ -1,0 +1,10 @@
+/* Tailwind base/components */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+
+/* Custom Style Imports */
+@import "./styles/typography.scss";
+@import "./styles/locomotive.scss";
+
+/* Tailwind Utilities */
+@import "tailwindcss/utilities";

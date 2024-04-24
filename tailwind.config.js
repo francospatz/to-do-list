@@ -1,10 +1,10 @@
 module.exports = {
-    content: ["./src/**/*.{js,jsx,ts,tsx}"],
+    content: ['./src/**/*.{js,jsx,ts,tsx}'],
     theme: {
-        /* fontFamily: {
-          'sans': ['Muller', 'Arial', 'sans-serif'],
-          'serif': ['Argent', 'Georgia', 'serif']
-        }, */
+        fontFamily: {
+            'sans': ['Inter', 'Arial', 'sans-serif'],
+            'serif': ['BookerlyBold', 'Georgia', 'serif']
+        },
         screens: {
             xs: '350px',
             sm: "640px",
@@ -32,5 +32,6 @@ module.exports = {
     },
     plugins: [
         require('tailwindcss'),
+        require('autoprefixer')
     ]
 }
