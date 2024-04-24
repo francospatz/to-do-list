@@ -4,15 +4,16 @@ import { motion } from "framer-motion";
 import { FaCheck } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 
-const Card = ({ title, id, column, handleDragStart, handleDelete, checked, setChecked, ck }) => {
-  const [isChecked, setIsChecked] = useState(ck);
+const Card = ({ title, id, column, handleDragStart, handleDelete, checked, setChecked, handleCardChecked }) => {
+  const [isChecked, setIsChecked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     if (isChecked) {
       const found = checked.find(c => c.id === id)
       if (!found) {
-        setChecked([...checked, { id, title, column, isChecked }])
+        setChecked([...checked, { id, title, column, isChecked: isChecked }])
+        handleCardChecked(isChecked)
       }
     }
     if (!isChecked) {

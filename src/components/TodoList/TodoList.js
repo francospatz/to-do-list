@@ -7,10 +7,8 @@ import Filter from "./Filter";
 
 
 const TodoList = () => {
-  const [cards, setCards] = useState(DEFAULT_CARDS);
+  const [cards, setCards] = useState([]);
   const [checked, setChecked] = useState([]);
-
-
 
 
   return (
@@ -34,7 +32,6 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
   const [active, setActive] = useState(false);
   const [selectedTab, setSelectedTab] = useState('All');
   const [filtered, setFiltered] = useState('All');
-  const [data, setData] = useState([]);
   const [cardsShown, setCardsShown] = useState([])
 
 
@@ -142,25 +139,33 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
     setActive(false);
   };
 
-  const filteredCards = cards.filter((c) => c.column === column);
-  const completedCards = checked.filter((c) => c.column === column);
-
   const difference = (A, B) => {
     const idsInB = new Set(B.map(item => item.id));
     return A.filter(item => !idsInB.has(item.id));
   }
 
-  const progressCards = difference(filteredCards, completedCards);
+  const [cardChecked, setCardChecked] = useState(false);
+
+  function handleCardChecked(data) {
+    setCardChecked(data);
+  }
 
   useEffect(() => {
+    const filteredCards = cards.filter((c) => c.column === column);
+    const completedCards = checked.filter((c) => c.column === column);
+    const progressCards = difference(filteredCards, completedCards);
+
+
     if (filtered === "All") {
       setCardsShown(filteredCards.map((c) => {
         return <Card key={c.id} {...c}
           handleDragStart={handleDragStart}
           handleDelete={handleDelete}
+          isChecked={cardChecked}
           checked={checked}
           setChecked={setChecked}
-          isChecked
+          handleCardChecked={handleCardChecked}
+
         />;
       }))
     } else if (filtered === "In progress") {
@@ -168,9 +173,10 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
         return <Card key={c.id} {...c}
           handleDragStart={handleDragStart}
           handleDelete={handleDelete}
+          isChecked={cardChecked}
           checked={checked}
           setChecked={setChecked}
-          isChecked={false}
+
         />;
       }))
     } else if (filtered === "Complete") {
@@ -178,14 +184,15 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
         return <Card key={c.id} {...c}
           handleDragStart={handleDragStart}
           handleDelete={handleDelete}
+          isChecked={cardChecked}
           checked={checked}
           setChecked={setChecked}
-          isChecked={true}
+
         />;
       }))
     }
-
-  }, [filtered, cards]);
+    console.log(checked);
+  }, [filtered, cards, checked, column]);
 
 
   const tabs = ["All", "In progress", "Complete"];
@@ -194,9 +201,9 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
     <div className="w-60 md:w-1/3 shrink-0">
       <div className="mb-3 flex items-center justify-between">
         <h3 className="font-serif font-thin text-white">{title}</h3>
-        <span className="rounded text-sm text-neutral-400">
+        {/* <span className="rounded text-sm text-neutral-400">
           {filteredCards.length}
-        </span>
+        </span> */}
 
       </div>
       <Filter selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} setFiltered={setFiltered} />
@@ -220,31 +227,31 @@ const DEFAULT_CARDS = [
     title: "Restock the Oddities Collection",
     id: "1898437",
     column: "todo",
-    /* isChecked: false */
+
   },
   {
     title: "Write a review about Dune 2 on Letterboxd",
     id: "234244",
     column: "todo",
-    /* isChecked: false */
+
   },
   {
     title: "Renew WoW Membership",
     id: "33956",
     column: "todo",
-    /* isChecked: false */
+
   },
   {
     title: "Start preparing my partner's birthday present",
     id: "4546",
     column: "todo",
-    /* isChecked: false */
+
   },
   {
     title: "Prepare the guest room",
     id: "531",
     column: "todo",
-    /* isChecked: false */
+
   }
 ]
 
