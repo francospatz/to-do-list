@@ -14,10 +14,7 @@ const AddCard = ({ column, setCards }) => {
     const newCard = {
       column,
       title: text.trim(),
-      id: Math.random().toString(),
-      check: false,
-      /* checked: checked,
-      setChecked: setChecked */
+      id: Math.random().toString()
     };
 
     setCards((pv) => [...pv, newCard]);

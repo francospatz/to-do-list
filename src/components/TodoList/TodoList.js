@@ -7,9 +7,11 @@ import Filter from "./Filter";
 
 
 const TodoList = () => {
-  const [cards, setCards] = useState([]);
-  const [checked, setChecked] = useState([]);
+  const saved = localStorage.getItem("cards");
+  const initialValue = JSON.parse(saved);
 
+  const [cards, setCards] = useState(initialValue || DEFAULT_CARDS);
+  const [checked, setChecked] = useState([]);
 
   return (
     <div className="h-screen w-full bg-neutral-900 text-neutral-50">
@@ -33,8 +35,6 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
   const [selectedTab, setSelectedTab] = useState('All');
   const [filtered, setFiltered] = useState('All');
   const [cardsShown, setCardsShown] = useState([])
-
-
 
   const handleDragStart = (e, card) => {
     e.dataTransfer.setData("cardId", card.id);
@@ -139,55 +139,42 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
     setActive(false);
   };
 
-  const difference = (A, B) => {
-    const idsInB = new Set(B.map(item => item.id));
-    return A.filter(item => !idsInB.has(item.id));
-  }
 
-  const [cardChecked, setCardChecked] = useState(false);
-
-  function handleCardChecked(data) {
-    setCardChecked(data);
-  }
 
   useEffect(() => {
     const filteredCards = cards.filter((c) => c.column === column);
-    const completedCards = checked.filter((c) => c.column === column);
-    const progressCards = difference(filteredCards, completedCards);
-
+    localStorage.setItem("cards", JSON.stringify(cards));
 
     if (filtered === "All") {
       setCardsShown(filteredCards.map((c) => {
         return <Card key={c.id} {...c}
           handleDragStart={handleDragStart}
           handleDelete={handleDelete}
-          isChecked={cardChecked}
+          filter={"all"}
           checked={checked}
           setChecked={setChecked}
-          handleCardChecked={handleCardChecked}
 
         />;
       }))
     } else if (filtered === "In progress") {
-      setCardsShown(progressCards.map((c) => {
+      setCardsShown(filteredCards.map((c) => {
         return <Card key={c.id} {...c}
           handleDragStart={handleDragStart}
           handleDelete={handleDelete}
-          isChecked={cardChecked}
+          filter={"progress"}
           checked={checked}
           setChecked={setChecked}
 
         />;
       }))
     } else if (filtered === "Complete") {
-      setCardsShown(completedCards.map((c) => {
+      setCardsShown(filteredCards.map((c) => {
         return <Card key={c.id} {...c}
           handleDragStart={handleDragStart}
           handleDelete={handleDelete}
-          isChecked={cardChecked}
+          filter={"complete"}
           checked={checked}
           setChecked={setChecked}
-
         />;
       }))
     }
@@ -201,9 +188,9 @@ const Column = ({ title, cards, column, setCards, checked, setChecked }) => {
     <div className="w-60 md:w-1/3 shrink-0">
       <div className="mb-3 flex items-center justify-between">
         <h3 className="font-serif font-thin text-white">{title}</h3>
-        {/* <span className="rounded text-sm text-neutral-400">
-          {filteredCards.length}
-        </span> */}
+        <span className="rounded text-sm text-neutral-400">
+          {cards.filter((c) => c.column === column).length}
+        </span>
 
       </div>
       <Filter selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} setFiltered={setFiltered} />

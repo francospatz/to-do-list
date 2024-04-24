@@ -4,24 +4,9 @@ import { motion } from "framer-motion";
 import { FaCheck } from "react-icons/fa";
 import { RxCross1 } from "react-icons/rx";
 
-const Card = ({ title, id, column, handleDragStart, handleDelete, checked, setChecked, handleCardChecked }) => {
+const Card = ({ title, id, column, handleDragStart, handleDelete, filter }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    if (isChecked) {
-      const found = checked.find(c => c.id === id)
-      if (!found) {
-        setChecked([...checked, { id, title, column, isChecked: isChecked }])
-        handleCardChecked(isChecked)
-      }
-    }
-    if (!isChecked) {
-      const newChecked = checked.filter(c => c.id !== id)
-      setChecked(newChecked)
-    }
-  }, [isChecked])
-
 
   const handleMouseEnter = () => {
     if (!isChecked) {  // Only change hover state if not checked
@@ -42,8 +27,18 @@ const Card = ({ title, id, column, handleDragStart, handleDelete, checked, setCh
 
   const cardClasses = `cursor-grab rounded border border-neutral-700 ${isChecked ? 'bg-neutral-500 line-through' : 'bg-neutral-800'} p-3 active:cursor-grabbing h-auto w-full relative`;
 
+  const classFilter = () => {
+    if (filter === "all" && isChecked) {
+      return
+    } else if (filter === "progress" && isChecked) {
+      return 'hidden'
+    } else if (filter === "complete" && !isChecked) {
+      return 'hidden'
+    }
+  }
+
   return (
-    <>
+    <div className={classFilter()}>
       <DropIndicator beforeId={id} column={column} />
       <motion.div
         layout
@@ -64,7 +59,7 @@ const Card = ({ title, id, column, handleDragStart, handleDelete, checked, setCh
 
         <RxCross1 className="absolute top-1 right-1 cursor-pointer transition-colors ease hover:text-red" onClick={() => handleDelete(id)} />
       </motion.div>
-    </>
+    </div>
   );
 };
 
