@@ -3,7 +3,7 @@
 > It is made in React with Tailwindcss and Sass for the styles and Framer-Motion for the animations.
 > 
 
-### ✨ [Demo](https://francospatz.github.io/to-do-list)
+### ✨ [Live Demo](https://francospatz.github.io/to-do-list)
 
 ## Install
 
