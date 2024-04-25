@@ -1,6 +1,7 @@
 # Welcome to to-do-list 👋
 
-> to-do-list is a web application that allows you to add, delete, organise and filter tasks.
+> It is made in React with Tailwindcss and Sass for the styles and Framer-Motion for the animations.
+> 
 
 ### ✨ [Demo](https://francospatz.github.io/to-do-list)
 
