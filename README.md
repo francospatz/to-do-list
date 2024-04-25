@@ -17,6 +17,10 @@ npm install
 npm run start
 ```
 
+## Known issues
+- There is a small bug in the animation of the task cards due to the way of displaying them filtered: the framer-motion layout that allows drag & drop animation does not cope well with the change from display-hidden to display-block.
+- The expected result of unchecking a checkbox is that the hover over the unchecked checkbox, which causes a check to appear, is momentarily disabled. It does not work correctly.
+
 ## Author
 
 👤 **Franco Lucas Spatz**
