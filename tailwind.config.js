@@ -14,6 +14,7 @@ module.exports = {
             "2xl": "1600px",
             "3xl": "1920px"
         },
+        // Custom colors and shadows
         extend: {
             colors: {
                 'black': '#0d0d0d',
