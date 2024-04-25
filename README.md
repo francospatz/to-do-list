@@ -1,9 +1,6 @@
 # Welcome to to-do-list 👋
-[![Version](https://img.shields.io/npm/v/to-do-list.svg)](https://www.npmjs.com/package/to-do-list)
 
 > to-do-list is a web application that allows you to add, delete, organise and filter tasks.
-
-### 🏠 [Homepage](https://francospatz.github.io/to-do-list)
 
 ### ✨ [Demo](https://francospatz.github.io/to-do-list)
 
