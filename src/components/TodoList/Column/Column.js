@@ -210,7 +210,7 @@ const Column = ({ title, cards, column, setCards }) => {
       <motion.div
         initial={{
           opacity: 0,
-          x: -100,
+          x: -20,
         }}
         animate={{
           opacity: 1,

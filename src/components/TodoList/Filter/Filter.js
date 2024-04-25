@@ -10,7 +10,7 @@ const Filter = ({ selectedTab, setSelectedTab, tabs, setFiltered }) => {
     <motion.div
       initial={{
         opacity: 0,
-        x: -100,
+        x: -20,
       }}
       animate={{
         opacity: 1,
