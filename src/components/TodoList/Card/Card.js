@@ -54,7 +54,7 @@ const Card = ({ title, id, column, handleDragStart, handleDelete, filter }) => {
   // Function to control card visibility based on filter settings
   const classFilter = () => {
     if (filter === "all" && isChecked) {
-      return; // Show all tasks regardless of status
+      return "opacity-1"; // Show all tasks regardless of status
     } else if (filter === "progress" && isChecked) {
       return 'hidden opacity-0'; // Hide completed tasks
     } else if (filter === "complete" && !isChecked) {
@@ -64,7 +64,7 @@ const Card = ({ title, id, column, handleDragStart, handleDelete, filter }) => {
 
   // Component rendering
   return (
-    <div className={classFilter()}>
+    <div className={`transition delay-1000 duration-1000 ease-in  ${classFilter()}`}>
       <DropIndicator beforeId={id} column={column} />  {/* Visual cue for drag-and-drop */}
       <motion.div
         layout
@@ -81,7 +81,11 @@ const Card = ({ title, id, column, handleDragStart, handleDelete, filter }) => {
         >
           {(isHovered || isChecked) && <FaCheck className="text-dark w-3 h-3" />} {/* Check icon visibility based on hover/check status */}
         </div>
-        <p className="text-sm md:text-md text-darker whitespace-normal break-words p-3 pl-4">{title}</p> {/* Card title */}
+        {isChecked ?
+          <p className="text-sm md:text-md text-darker whitespace-normal break-words p-3 pl-4">{title}</p>
+          :
+          <p className="text-sm font-bold md:text-md text-darker whitespace-normal break-words p-3 pl-4">{title}</p>}{/* Card title */}
+
 
         <RxCross1 className="absolute top-1 right-1 cursor-pointer text-dark transition-colors ease hover:text-darker" onClick={() => handleDelete(id)} />{/* Delete icon */}
       </motion.div>

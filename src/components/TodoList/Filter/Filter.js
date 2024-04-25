@@ -7,7 +7,20 @@ import { motion } from "framer-motion";
 const Filter = ({ selectedTab, setSelectedTab, tabs, setFiltered }) => {
   // Render a div that displays each tab as a Chip component.
   return (
-    <div className="py-2 flex items-center flex-wrap gap-2">
+    <motion.div
+      initial={{
+        opacity: 0,
+        x: -100,
+      }}
+      animate={{
+        opacity: 1,
+        x: 0,
+        transition: {
+          duration: 1.6,
+          delay: 1.2,
+        },
+      }}
+      className="py-2 flex items-center flex-wrap gap-2">
       {tabs.map((tab) => (
         <Chip
           text={tab}
@@ -17,7 +30,7 @@ const Filter = ({ selectedTab, setSelectedTab, tabs, setFiltered }) => {
           setFiltered={setFiltered}
         />
       ))}
-    </div>
+    </motion.div>
   );
 };
 

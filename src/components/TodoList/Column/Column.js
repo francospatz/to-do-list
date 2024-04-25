@@ -1,5 +1,6 @@
 // Importing necessary React modules and component dependencies
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Card from "../Card";
 import Filter from "../Filter";
 import AddCard from "../AddCard";
@@ -173,24 +174,62 @@ const Column = ({ title, cards, column, setCards }) => {
   return (
     <div className="w-full md:w-2/3 mt-1 md:mt-2 py-1 md:py-3 px-4 md:px-10 shrink-0">
       <div className="flex items-center justify-between rounded-3xl">
-        <h3 className="font-serif text-3xl md:text-4xl text-dark">{title}</h3>
-        <span className="rounded text-lg font-bold font-serif text-dark">
+        <motion.h3
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+            transition: {
+              duration: 1.6,
+              delay: 0.6,
+            },
+          }}
+          className="font-serif text-3xl md:text-4xl text-dark">
+          {title}
+        </motion.h3>
+        <motion.span
+          initial={{
+            opacity: 0,
+            x: 50,
+          }}
+          animate={{
+            opacity: 1,
+            x: 0,
+            transition: {
+              duration: 1.6,
+              delay: 1.5,
+            },
+          }}
+          className="rounded text-lg font-bold font-serif text-dark">
           {cards.filter((c) => c.column === column).length}
-        </span>
+        </motion.span>
 
       </div>
       <Filter selectedTab={selectedTab} setSelectedTab={setSelectedTab} tabs={tabs} setFiltered={setFiltered} />
-      <div
+      <motion.div
+        initial={{
+          opacity: 0,
+          x: -100,
+        }}
+        animate={{
+          opacity: 1,
+          x: 0,
+          transition: {
+            duration: 1.6,
+            delay: 1.2,
+          },
+        }}
         onDrop={handleDragEnd}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         className={`h-full w-full transition-colors rounded ${active ? "bg-lighter/40" : "bg-neutral-800/0"
           }`}
       >
-        {cardsShown}
+        {cardsShown} {/* Prints all task cards */}
         <DropIndicator beforeId={null} column={column} />
         <AddCard column={column} setCards={setCards} cards={cards} />
-      </div>
+      </motion.div>
     </div>
   );
 };

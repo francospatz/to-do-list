@@ -30,7 +30,9 @@ const TodoList = () => {
 
   return (
     <div className="content min-h-screen w-full bg-gradient-to-b from-purple from-10% via-lighter via-50% to-light to-90%">
-      <div className="flex h-auto justify-center gap-3 overflow-scroll p-4 md:p-12 ">
+      <div
+
+        className="flex h-auto justify-center gap-3 overflow-scroll p-4 md:p-12 ">
         {/* Column component to display the cards with props for interaction and styling */}
         <Column
           title="To-Do List"
