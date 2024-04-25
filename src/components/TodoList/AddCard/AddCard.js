@@ -59,7 +59,7 @@ const AddCard = ({ column, setCards, cards }) => {
             }}
             autoFocus
             placeholder="Add new task..."
-            className="w-full rounded border border-purple bg-purple p-3 text-sm text-darker placeholder-dark focus:outline-0"
+            className="w-full rounded border border-purple bg-purple/60 p-3 text-sm text-darker placeholder-dark focus:outline-0"
           />
           <div className="mt-1.5 flex items-center justify-end gap-1.5">
             {/* Close and Add buttons for form control */}
@@ -71,7 +71,7 @@ const AddCard = ({ column, setCards, cards }) => {
             </button>
             <button
               type="submit"
-              className="flex items-center gap-1.5 rounded transition-shadow hover:shadow-neon bg-purple px-3 py-1.5 text-sm text-darker transition-colors hover:bg-purple"
+              className="flex items-center gap-1.5 rounded transition hover:shadow-neon bg-purple/60 px-3 py-1.5 text-sm text-darker transition-colors hover:bg-purple"
             >
               <span>Add</span>
               <FiPlus />

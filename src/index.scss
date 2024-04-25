@@ -17,3 +17,9 @@
 body {
   @apply font-sans antialiased;
 }
+
+.gradient-background {
+  background: linear-gradient(to right, #c29ffd, #9a98ff);
+  background-size: 300% 300%;
+  background-clip: border-box;
+}

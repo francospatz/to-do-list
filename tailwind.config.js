@@ -25,11 +25,21 @@ module.exports = {
                 'darker': '#380B5E',
                 'lighter': '#C9AAFF',
                 'light': '#A5A4FF',
+                'yellow': '#FFEDBD',
                 'red': '#D22B2B'
             },
             boxShadow: {
-                neon: '0 0 5px #E3D1FF, 0 0 10px #6D4B96',
+                neon: '0 0 5px #C9AAFF, 0 0 20px #E3D1FF',
                 neon2: '0 0 3px #e9daff, 0 0 7px #E3D1FF'
+            },
+            keyFreames: {
+                gradient: {
+                    "0%": { backgroundPosition: "0% 50%" },
+                    "100%": { backgroundPosition: "100% 50%" },
+                }
+            },
+            animation: {
+                gradient: "gradient 2s linear infinite"
             }
         },
     },

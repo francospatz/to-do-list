@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import DropIndicator from "../DropIndicator";
 import { motion } from "framer-motion";
 import { FaCheck } from "react-icons/fa";
-import { RxCross1 } from "react-icons/rx";
+import { RxCross2 } from "react-icons/rx";
 
 // Card component which represents an individual item in a task management or similar system
 const Card = ({ title, id, column, handleDragStart, handleDelete, filter }) => {
@@ -49,7 +49,7 @@ const Card = ({ title, id, column, handleDragStart, handleDelete, filter }) => {
   };
 
   // Dynamic CSS class names based on card's check status
-  const cardClasses = `cursor-grab rounded border  ${isChecked ? 'bg-transparent line-through text-dark border-plighter' : 'bg-lighter border-dark'} p-3 active:cursor-grabbing h-auto w-full relative transition-colors ease`;
+  const cardClasses = `cursor-grab rounded border  ${isChecked ? 'bg-light/10 line-through text-dark border-plighter' : 'bg-lighter/30 border-dark'} p-3 active:cursor-grabbing h-auto w-full relative transition-colors ease`;
 
   // Function to control card visibility based on filter settings
   const classFilter = () => {
@@ -87,7 +87,7 @@ const Card = ({ title, id, column, handleDragStart, handleDelete, filter }) => {
           <p className="text-sm font-bold md:text-md text-darker whitespace-normal break-words p-3 pl-4">{title}</p>}{/* Card title */}
 
 
-        <RxCross1 className="absolute top-1 right-1 cursor-pointer text-dark transition-colors ease hover:text-darker" onClick={() => handleDelete(id)} />{/* Delete icon */}
+        <RxCross2 className="absolute top-1 right-1 h-5 w-5 cursor-pointer text-dark transition-colors ease hover:text-darker" onClick={() => handleDelete(id)} />{/* Delete icon */}
       </motion.div>
     </div>
   );

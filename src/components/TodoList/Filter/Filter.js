@@ -48,7 +48,7 @@ const Chip = ({ text, selectedTab, setSelectedTab, setFiltered }) => {
       }
       className={`${selectedTab
         ? "text-darker pointer-events-none"
-        : "text-dark hover:text-darker hover:bg-purple hover:shadow-neon2"
+        : "text-dark hover:text-darker hover:bg-purple hover:shadow-neon"
         } text-md font-bold transition-all px-2.5 py-0.5 rounded-md relative `}
     >
       <span className="relative z-10">{text}</span> {/* The visible text of the tab */}
@@ -58,7 +58,7 @@ const Chip = ({ text, selectedTab, setSelectedTab, setFiltered }) => {
         <motion.span
           layoutId="pill-tab" // Unique ID for motion animation
           transition={{ type: "spring", duration: 0.5 }} // Animation type and duration
-          className="absolute inset-0 z-0 bg-gradient-to-r from-lighter to-light rounded-md"
+          className="gradient-background  absolute inset-0 z-0 rounded-md"
         ></motion.span>
       )}
     </button>

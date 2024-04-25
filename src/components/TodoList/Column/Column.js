@@ -172,7 +172,7 @@ const Column = ({ title, cards, column, setCards }) => {
 
   // Component rendering
   return (
-    <div className="w-full md:w-2/3 mt-1 md:mt-2 py-1 md:py-3 px-4 md:px-10 shrink-0">
+    <div className="w-full md:w-2/3 mt-1 md:mt-2 py-1 md:py-3 px-4 md:px-10 shrink-0 bg-gradient-to-b from-purple from-50% to-lighter to-90% rounded rounded-2xl">
       <div className="flex items-center justify-between rounded-3xl">
         <motion.h3
           initial={{
@@ -223,8 +223,7 @@ const Column = ({ title, cards, column, setCards }) => {
         onDrop={handleDragEnd}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
-        className={`h-full w-full transition-colors rounded ${active ? "bg-lighter/40" : "bg-neutral-800/0"
-          }`}
+        className={`h-full w-full transition-colors rounded`}
       >
         {cardsShown} {/* Prints all task cards */}
         <DropIndicator beforeId={null} column={column} />
