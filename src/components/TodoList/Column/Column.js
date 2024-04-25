@@ -31,7 +31,7 @@ const Column = ({ title, cards, column, setCards }) => {
     const before = element.dataset.before || "-1"; // Get the identifier for the position to drop the card
 
     if (before !== cardId) {
-      //let copy = [...cards];
+
       let copyJSON = localStorage.getItem("cards");
       let copy = JSON.parse(copyJSON);
 
@@ -174,7 +174,7 @@ const Column = ({ title, cards, column, setCards }) => {
 
   // Component rendering
   return (
-    <div className="w-full md:w-2/3 mt-1 md:mt-2 py-1 md:py-3 px-4 md:px-10 shrink-0 bg-gradient-to-b from-purple from-50% to-lighter to-90% rounded rounded-2xl">
+    <div className="w-full md:w-2/3 mt-1 md:mt-2 py-1 md:py-3 px-4 md:px-10 shrink-0 bg-gradient-to-b from-purple/70 from-50% to-lighter to-90% rounded rounded-2xl">
       <div className="flex items-center justify-between rounded-3xl">
         <motion.h3
           initial={{

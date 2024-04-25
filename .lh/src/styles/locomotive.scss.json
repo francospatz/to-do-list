@@ -1,0 +1,38 @@
+{
+    "sourceFile": "src/styles/locomotive.scss",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1714053489765,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1714053499770,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,5 +15,6 @@\n \r\n body {\r\n   margin: 0;\r\n   padding: 0;\r\n+  background-color: purple;\r\n }\r\n"
+                },
+                {
+                    "date": 1714053512362,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,6 +15,6 @@\n \r\n body {\r\n   margin: 0;\r\n   padding: 0;\r\n-  background-color: purple;\r\n+  background-color: rgb(146, 139, 255);\r\n }\r\n"
+                },
+                {
+                    "date": 1714054248106,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -15,6 +15,6 @@\n \r\n body {\r\n   margin: 0;\r\n   padding: 0;\r\n-  background-color: rgb(146, 139, 255);\r\n+  background: linear-gradient(90deg, rgba(227,209,255,1) 19%, rgba(227,209,255,1) 51%, rgba(165,164,255,1) 80%);\r\n }\r\n"
+                },
+                {
+                    "date": 1714054261370,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n body {\r\n   margin: 0;\r\n   padding: 0;\r\n   background: linear-gradient(\r\n-    90deg,\r\n+    180deg,\r\n     rgba(227, 209, 255, 1) 19%,\r\n     rgba(227, 209, 255, 1) 51%,\r\n     rgba(165, 164, 255, 1) 80%\r\n   );\r\n"
+                },
+                {
+                    "date": 1714054268369,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -16,9 +16,9 @@\n body {\r\n   margin: 0;\r\n   padding: 0;\r\n   background: linear-gradient(\r\n-    180deg,\r\n+    \r\n     rgba(227, 209, 255, 1) 19%,\r\n     rgba(227, 209, 255, 1) 51%,\r\n     rgba(165, 164, 255, 1) 80%\r\n   );\r\n"
+                }
+            ],
+            "date": 1714053489765,
+            "name": "Commit-0",
+            "content": "html {\r\n  & {\r\n    &,\r\n    * {\r\n      scrollbar-width: none !important;\r\n      -ms-overflow-style: none !important;\r\n\r\n      &::-webkit-scrollbar {\r\n        width: 0 !important;\r\n        height: 0 !important;\r\n      }\r\n    }\r\n  }\r\n}\r\n\r\nbody {\r\n  margin: 0;\r\n  padding: 0;\r\n}"
+        }
+    ]
+}

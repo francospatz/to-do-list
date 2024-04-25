@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/App.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1714053719623,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1714053728515,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,9 @@\n import Home from './pages/Home';\n \n function App() {\n   return (\n-    <div className=\"App bg-gradient-to-b from-purple/70 from-50% to-lighter to-90%\">\n+    <div className=\"App bg-gradient-to-b from-purple/70 from-50% to-lighter to-90% h-full\">\n       <Home />\n     </div>\n   );\n }\n"
+                }
+            ],
+            "date": 1714053719623,
+            "name": "Commit-0",
+            "content": "import Home from './pages/Home';\n\nfunction App() {\n  return (\n    <div className=\"App bg-gradient-to-b from-purple/70 from-50% to-lighter to-90%\">\n      <Home />\n    </div>\n  );\n}\n\nexport default App;\n"
+        }
+    ]
+}

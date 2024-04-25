@@ -24,3 +24,14 @@ body {
   background-size: 300% 300%;
   background-clip: border-box;
 }
+
+.background-image {
+  top: -230px;
+  left: -10px;
+  position: absolute;
+  z-index: 0;
+  background-image: url("./assets/bg-image.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

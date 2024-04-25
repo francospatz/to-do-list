@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import Column from "./Column";
 
 // Component to render a To-Do list interface
@@ -29,10 +30,12 @@ const TodoList = () => {
   useEffect(loadCards, []);
 
   return (
-    <div className="content min-h-screen w-full bg-gradient-to-b from-purple from-10% via-lighter via-50% to-light to-90%">
-      <div
-
-        className="flex h-auto justify-center gap-3 overflow-scroll p-4 md:p-12 ">
+    <div className="content min-h-screen h-full w-full bg-gradient-to-b from-purple from-10% via-lighter via-50% to-light to-90%">
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ ease: "linear", duration: 20, repeat: Infinity }}
+        className=" z-1 background-image overflow-hidden sm:w-[600px] sm:h-[600px] lg:w-[900px] lg:h-[900px]"></motion.div>
+      <div className="flex h-full justify-center gap-3 p-4 pb-12 md:p-12 md:pb-12 relative z-2">
         {/* Column component to display the cards with props for interaction and styling */}
         <Column
           title="To-Do List"

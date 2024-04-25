@@ -12,3 +12,14 @@ html {
     }
   }
 }
+
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(
+    0deg,
+    rgba(227, 209, 255, 1) 19%,
+    rgba(227, 209, 255, 1) 51%,
+    rgba(165, 164, 255, 1) 80%
+  );
+}
