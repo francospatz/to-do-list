@@ -31,7 +31,9 @@ const Column = ({ title, cards, column, setCards }) => {
     const before = element.dataset.before || "-1"; // Get the identifier for the position to drop the card
 
     if (before !== cardId) {
-      let copy = [...cards];
+      //let copy = [...cards];
+      let copyJSON = localStorage.getItem("cards");
+      let copy = JSON.parse(copyJSON);
 
       let cardToTransfer = copy.find((c) => c.id === cardId);
       if (!cardToTransfer) return;
