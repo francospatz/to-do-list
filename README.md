@@ -6,16 +6,28 @@
 ### ✨ [Live Demo](https://francospatz.github.io/to-do-list)
 
 ## Install
-
+1. Clone the repo
+```sh
+git clone https://github.com/francospatz/to-do-list.git
+```
+2. Install NPM packages
 ```sh
 npm install
 ```
 
 ## Usage
-
 ```sh
-npm run start
+npm start
 ```
+
+## Possible future implementations
+- Automatically move tasks that are marked as completed to the bottom of the list.
+  
+- Button to check or uncheck all tasks.
+  
+- Button to delete all completed tasks.
+  
+- Modal notification that allows to undo the last task deletion(s).
 
 ## Known issues
 - There is a small bug in the animation of the task cards due to the way of displaying them filtered: the framer-motion layout that allows drag & drop animation does not cope well with the change from display-hidden to display-block.
