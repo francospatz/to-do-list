@@ -1,9 +1,9 @@
-# Welcome to to-do-list 👋
+# 📋 Welcome to to-do-list 📋
 
 > Made in React with Tailwindcss and Sass for the styles and Framer-Motion for the animations.
 > Add, delete, filter and order by drag & drop all your tasks. 
 
-### ✨ [Live Demo](https://francospatz.github.io/to-do-list)
+### ✨ [Live Demo](https://francospatz.github.io/to-do-list) ✨
 
 ## Install
 1. Clone the repo
