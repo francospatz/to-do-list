@@ -5,7 +5,6 @@ import Card from "./Card";
 import AddCard from "./AddCard";
 import Filter from "./Filter";
 
-
 const TodoList = () => {
 
   const [cards, setCards] = useState(DEFAULT_CARDS);
@@ -227,7 +226,7 @@ const Column = ({ title, cards, column, setCards }) => {
 
 const DEFAULT_CARDS = [
   {
-    title: "Restock the Oddities Collection",
+    title: "Order my vinyl record collection",
     id: "1898437",
     column: "todo",
 
@@ -245,13 +244,13 @@ const DEFAULT_CARDS = [
 
   },
   {
-    title: "Start preparing my partner's birthday present",
+    title: "Finish my partner's birthday present",
     id: "4546",
     column: "todo",
 
   },
   {
-    title: "Prepare the guest room",
+    title: "Buy bass guitar strings online",
     id: "531",
     column: "todo",
 
